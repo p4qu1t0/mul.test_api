@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.generali.api</groupId>
 	<artifactId>test-helloworld</artifactId>
-	<version>1.0.22</version>
+	<version>1.0.23</version>
 	<packaging>mule-application</packaging>
 	<name>mul.test_api</name>
 	<properties>
