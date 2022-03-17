@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="fb01c56d-0583-477d-94b0-136326ad21ac">
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<global-property doc:name="Global Property" doc:id="c60d4348-9402-4824-a299-a8b5d55b0026" name="api.id" value="1234" />
+	<global-property doc:name="Global Property" doc:id="10b918e4-533e-4174-8e1a-c6a6d2538701" name="env" value="dev" />
+	<api-gateway:autodiscovery apiId="${api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="6c887f97-5411-4584-b807-31affe039a15" flowRef="test-helloworldFlow" />
+	<flow name="test-helloworldFlow" doc:id="e1ddfa58-42cd-4256-965a-586ba939c74e">
+		<http:listener doc:name="Listener" doc:id="52437fbf-74ab-4a7b-bdf8-15d36da43a84" config-ref="HTTP_Listener_config" path="/test" />
+		<ee:transform doc:name="Transform Message" doc:id="a04859b9-1573-4628-b0ac-13295643bbac">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output text/plain
+---
+'This is a helloworld message']]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="758e4b73-7830-45d1-982d-1947cc35c172" />
+		<choice doc:name="Choice" doc:id="7c186750-af12-4b12-af50-90a617fb9237">
+			<when expression="#[randomInt(100) &lt; 50]">
+				<logger level="INFO" doc:name="Logger" doc:id="ff1817c3-2de1-4ac4-bf22-c43739a303c0" message="Payload: #[payload] - Path 1" />				
+			</when>
+			<otherwise>
+				<logger level="INFO" doc:name="Logger" doc:id="56e66058-72ae-48cb-b7c2-016034136b9c" message="Payload: #[payload] - Path 2" />
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
