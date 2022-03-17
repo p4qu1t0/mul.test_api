@@ -26,7 +26,8 @@ output text/plain
 'This is a helloworld message']]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="758e4b73-7830-45d1-982d-1947cc35c172" />
+		<logger level="INFO" doc:name="Logger" doc:id="758e4b73-7830-45d1-982d-1947cc35c172" message="test 170301"/>
+		<logger level="INFO" doc:name="Logger" doc:id="da0fb1c9-ff9b-447d-bc5d-233165cb076f" />
 		<choice doc:name="Choice" doc:id="7c186750-af12-4b12-af50-90a617fb9237">
 			<when expression="#[randomInt(100) &lt; 50]">
 				<logger level="INFO" doc:name="Logger" doc:id="ff1817c3-2de1-4ac4-bf22-c43739a303c0" message="Payload: #[payload] - Path 1" />				
